@@ -16,17 +16,21 @@ const newsApi = new NewsAPI();
 refs.formElem.addEventListener('submit', onFormSubmit);
 
 async function onFormSubmit(e) {
+
+  console.log("submit ok");
+
   e.preventDefault();
   showSpinner();
 
   const query = e.target.elements.query.value.trim();
   newsApi.page = 1;
   newsApi.query = query;
-  refs.articleListElem.innerHTML = '';
+  // refs.articleListElem.innerHTML = '';
   try {
     const data = await newsApi.getArticles();
+    console.log(data);
     newsApi.totalResult = data.totalResults;
-    renderArticles(data.articles);
+    renderArticles(data.hits);
   } catch (err) {
     newsApi.totalResult = 0;
     iziToast.error({
@@ -40,36 +44,36 @@ async function onFormSubmit(e) {
 }
 // ==========================================
 
-refs.btnLoadMore.addEventListener('click', onLoadMoreClick);
+// refs.btnLoadMore.addEventListener('click', onLoadMoreClick);
 
-async function onLoadMoreClick() {
-  showSpinner();
-  newsApi.page += 1;
-  const data = await newsApi.getArticles();
-  renderArticles(data.articles);
-  checkBtnStatus();
-  hideSpinner();
-}
+// async function onLoadMoreClick() {
+//   showSpinner();
+//   newsApi.page += 1;
+//   const data = await newsApi.getArticles();
+//   renderArticles(data.articles);
+//   checkBtnStatus();
+//   hideSpinner();
+// }
 
 // ==========================================
 function articleTemplate(article) {
-  const { urlToImage, title, description, author, publishedAt } = article;
+  const { userImageURL,likes} = article;
   return `<li class="card news-card">
   <img loading="lazy"
     class="news-image"
-    src="${urlToImage}"
-    alt="${title}"
+    src="${userImageURL}"
+    alt=""
   />
   <h3 class="card-title">
-    ${title}
+    ${likes}
   </h3>
-  <p class="card-desc">
-  ${description}
-  </p>
-  <div class="card-footer">
-    <span>${author}</span>
-    <span>${publishedAt}</span>
-  </div>
+  // <p class="card-desc">
+  // ${likes}
+  // </p>
+  // <div class="card-footer">
+  //   <span>${likes}</span>
+  //   <span>${likes}</span>
+  // </div>
 </li>
 `;
 }
@@ -98,18 +102,18 @@ function checkBtnStatus() {
   if (isLastPage) {
     refs.btnLoadMore.classList.add('hidden');
   } else {
-    refs.btnLoadMore.classList.remove('hidden');
+    // refs.btnLoadMore.classList.remove('hidden');
   }
 }
 
 // =======================
 
 function showSpinner() {
-  refs.loadElem.classList.remove('hidden');
-  refs.btnLoadMore.classList.add('hidden');
+  // refs.loadElem.classList.remove('hidden');
+  // refs.btnLoadMore.classList.add('hidden');
 }
 
 function hideSpinner() {
-  refs.loadElem.classList.add('hidden');
-  refs.btnLoadMore.classList.remove('hidden');
+  // refs.loadElem.classList.add('hidden');
+  // refs.btnLoadMore.classList.remove('hidden');
 }

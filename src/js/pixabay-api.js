@@ -1,12 +1,12 @@
 // https://pixabay.com/api/?key=44530588-77e4763ebb7280f93ce94dd82&q=yellow+flowers&image_type=photo
 
-const BASE_URL = 'https://pixabay.com/api/';
-const END_POINT = '/search';
+const BASE_URL = 'https://pixabay.com/api/?';
+const KEY = 'key=44530588-77e4763ebb7280f93ce94dd82';
 const options = {
-  headers: {
-    'Key': '44530588-77e4763ebb7280f93ce94dd82',
+  // headers: {
+  //   'Key': 'key=44530588-77e4763ebb7280f93ce94dd82',
   
-  },
+  // },
 };
 
 export class NewsAPI {
@@ -22,7 +22,9 @@ export class NewsAPI {
       page: this.page,
     });
 
-    const url = `${BASE_URL}${END_POINT}?${PARAMS}`;
+    // const url = `${BASE_URL}${KEY}${PARAMS}`;
+    const url =  'https://pixabay.com/api/?key=44530588-77e4763ebb7280f93ce94dd82&q=yellow+flowers&image_type=photo';
+    console.log(url);
     return fetch(url, options).then(res => res.json());
   }
 
