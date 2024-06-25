@@ -1,19 +1,16 @@
-var f=Object.defineProperty;var g=(t,e,r)=>e in t?f(t,e,{enumerable:!0,configurable:!0,writable:!0,value:r}):t[e]=r;var c=(t,e,r)=>(g(t,typeof e!="symbol"?e+"":e,r),r),y=(t,e,r)=>{if(!e.has(t))throw TypeError("Cannot "+r)};var l=(t,e,r)=>(y(t,e,"read from private field"),r?r.call(t):e.get(t)),m=(t,e,r)=>{if(e.has(t))throw TypeError("Cannot add the same private member more than once");e instanceof WeakSet?e.add(t):e.set(t,r)};import{i as h}from"./assets/vendor-ad859c2f.js";(function(){const e=document.createElement("link").relList;if(e&&e.supports&&e.supports("modulepreload"))return;for(const s of document.querySelectorAll('link[rel="modulepreload"]'))d(s);new MutationObserver(s=>{for(const o of s)if(o.type==="childList")for(const i of o.addedNodes)i.tagName==="LINK"&&i.rel==="modulepreload"&&d(i)}).observe(document,{childList:!0,subtree:!0});function r(s){const o={};return s.integrity&&(o.integrity=s.integrity),s.referrerPolicy&&(o.referrerPolicy=s.referrerPolicy),s.crossOrigin==="use-credentials"?o.credentials="include":s.crossOrigin==="anonymous"?o.credentials="omit":o.credentials="same-origin",o}function d(s){if(s.ep)return;s.ep=!0;const o=r(s);fetch(s.href,o)}})();const L={};var n;class p{constructor(){c(this,"query","");m(this,n,10);c(this,"page",1);c(this,"total_pages",1)}getArticles(){new URLSearchParams({q:this.query,page_size:l(this,n),page:this.page});const e="https://pixabay.com/api/?key=44530588-77e4763ebb7280f93ce94dd82&q=yellow+flowers&image_type=photo";return console.log(e),fetch(e,L).then(r=>r.json())}get pageSize(){return l(this,n)}}n=new WeakMap;const u={formElem:document.querySelector(".js-search-form"),articleListElem:document.querySelector(".js-article-list"),btnLoadMore:document.querySelector(".js-btn-load"),loadElem:document.querySelector(".js-loader")},a=new p;u.formElem.addEventListener("submit",b);async function b(t){console.log("submit ok"),t.preventDefault();const e=t.target.elements.query.value.trim();a.page=1,a.query=e;try{const r=await a.getArticles();console.log(r),a.totalResult=r.totalResults,S(r.hits)}catch(r){a.totalResult=0,h.error({title:"Error",message:r.message})}w()}function q(t){const{userImageURL:e,likes:r}=t;return`<li class="card news-card">
+var p=Object.defineProperty;var g=(e,t,s)=>t in e?p(e,t,{enumerable:!0,configurable:!0,writable:!0,value:s}):e[t]=s;var a=(e,t,s)=>(g(e,typeof t!="symbol"?t+"":t,s),s),h=(e,t,s)=>{if(!t.has(e))throw TypeError("Cannot "+s)};var d=(e,t,s)=>(h(e,t,"read from private field"),s?s.call(e):t.get(e)),m=(e,t,s)=>{if(t.has(e))throw TypeError("Cannot add the same private member more than once");t instanceof WeakSet?t.add(e):t.set(e,s)};import{i as y}from"./assets/vendor-ad859c2f.js";(function(){const t=document.createElement("link").relList;if(t&&t.supports&&t.supports("modulepreload"))return;for(const o of document.querySelectorAll('link[rel="modulepreload"]'))n(o);new MutationObserver(o=>{for(const r of o)if(r.type==="childList")for(const u of r.addedNodes)u.tagName==="LINK"&&u.rel==="modulepreload"&&n(u)}).observe(document,{childList:!0,subtree:!0});function s(o){const r={};return o.integrity&&(r.integrity=o.integrity),o.referrerPolicy&&(r.referrerPolicy=o.referrerPolicy),o.crossOrigin==="use-credentials"?r.credentials="include":o.crossOrigin==="anonymous"?r.credentials="omit":r.credentials="same-origin",r}function n(o){if(o.ep)return;o.ep=!0;const r=s(o);fetch(o.href,r)}})();const L="https://pixabay.com/",v="api/",E="44530588-77e4763ebb7280f93ce94dd82",b={};var c;class f{constructor(){a(this,"query","");m(this,c,10);a(this,"page",1);a(this,"total_pages",1)}getArticles(){const t=new URLSearchParams({key:E,q:this.query,image_type:"photo",orientation:"horizontal",safesearch:!0}),s=`${L}${v}?${t}`;return console.log(s),fetch(s,b).then(n=>n.json())}get pageSize(){return d(this,c)}}c=new WeakMap;const l={formElem:document.querySelector(".js-search-form"),articleListElem:document.querySelector(".js-article-list"),btnLoadMore:document.querySelector(".js-btn-load"),loadElem:document.querySelector(".js-loader")},i=new f;l.formElem.addEventListener("submit",P);async function P(e){e.preventDefault();const t=e.target.elements.query.value.trim();i.page=1,i.query=t,l.articleListElem.innerHTML="";try{const s=await i.getArticles();console.log(s),i.totalResult=s.totalResults,q(s.hits)}catch(s){i.totalResult=0,y.error({title:"Error1",message:s.message})}A()}function S(e){return console.log(e),`<li class="image-list-el">
   <img loading="lazy"
     class="news-image"
-    src="${e}"
-    alt=""
+    src="${e.webformatURL}"
+    alt="${e.tags}"
   />
-  <h3 class="card-title">
-    ${r}
-  </h3>
-  // <p class="card-desc">
-  // ${r}
-  // </p>
-  // <div class="card-footer">
-  //   <span>${r}</span>
-  //   <span>${r}</span>
-  // </div>
+ 
+  <div class="card-footer">
+    <div class="item"><h3>Likes</h3><p>${e.likes}</p></div>
+    <div class="item"><h3>Views</h3><p>${e.views}</p></div>
+    <div class="item"><h3>Comments</h3><p>${e.comments}</p></div>
+    <div class="item"><h3>Downloads</h3><p>${e.downloads}</p></div>
+ </div>
 </li>
-`}function P(t){return t.map(q).join("")}function S(t){const e=P(t);u.articleListElem.insertAdjacentHTML("beforeend",e)}function w(){console.log(a.totalResult),console.log(a.page),Math.ceil(a.totalResult/p.PAGE_SIZE)<=a.page&&u.btnLoadMore.classList.add("hidden")}
+`}function w(e){return e.map(S).join("")}function q(e){const t=w(e);l.articleListElem.insertAdjacentHTML("beforeend",t)}function A(){console.log(i.totalResult),console.log(i.page),Math.ceil(i.totalResult/f.PAGE_SIZE)<=i.page&&l.btnLoadMore.classList.add("hidden")}
 //# sourceMappingURL=commonHelpers.js.map
