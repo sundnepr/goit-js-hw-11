@@ -2,6 +2,7 @@
 import iziToast from 'izitoast';
 import 'izitoast/dist/css/iziToast.min.css';
 import { NewsAPI } from '/js/pixabay-api';
+import {articleTemplate} from '/js/render-functions';
 
 const refs = {
   formElem: document.querySelector('.js-search-form'),
@@ -40,39 +41,7 @@ async function onFormSubmit(e) {
   checkBtnStatus();
   hideSpinner();
 }
-// ==========================================
-
-// refs.btnLoadMore.addEventListener('click', onLoadMoreClick);
-
-// async function onLoadMoreClick() {
-//   showSpinner();
-//   newsApi.page += 1;
-//   const data = await newsApi.getArticles();
-//   renderArticles(data.articles);
-//   checkBtnStatus();
-//   hideSpinner();
-// }
-
-// ==========================================
-function articleTemplate(article) {
-    const { webformatURL, largeImageURL, tags, likes, views, comments, downloads} = article;
-    console.log(article);
-  return `<li class="image-list-el">
-  <img loading="lazy"
-    class="news-image"
-    src="${article.webformatURL}"
-    alt="${article.tags}"
-  />
- 
-  <div class="card-footer">
-    <div class="item"><h3>Likes</h3><p>${article.likes}</p></div>
-    <div class="item"><h3>Views</h3><p>${article.views}</p></div>
-    <div class="item"><h3>Comments</h3><p>${article.comments}</p></div>
-    <div class="item"><h3>Downloads</h3><p>${article.downloads}</p></div>
- </div>
-</li>
-`;
-}
+articleTemplate(article);
 
 function articlesTemplate(articles) {
   return articles.map(articleTemplate).join('');
@@ -83,12 +52,6 @@ function renderArticles(articles) {
   refs.articleListElem.insertAdjacentHTML('beforeend', markup);
 }
 // ==========================================
-
-/* function checkBtnStatus() {
-  const maxPage = Math.ceil(newsApi.totalResult / NewsAPI.PAGE_SIZE);
-  const isLastPage = maxPage === newsApi.page;
-  refs.btnLoadMore.disabled = isLastPage;
-} */
 
 function checkBtnStatus() {
   console.log(newsApi.totalResult);
