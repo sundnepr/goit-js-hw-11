@@ -17,15 +17,13 @@ refs.formElem.addEventListener('submit', onFormSubmit);
 
 async function onFormSubmit(e) {
 
-  console.log("submit ok");
-
   e.preventDefault();
   showSpinner();
 
   const query = e.target.elements.query.value.trim();
   newsApi.page = 1;
   newsApi.query = query;
-  // refs.articleListElem.innerHTML = '';
+  refs.articleListElem.innerHTML = '';
   try {
     const data = await newsApi.getArticles();
     console.log(data);
@@ -34,7 +32,7 @@ async function onFormSubmit(e) {
   } catch (err) {
     newsApi.totalResult = 0;
     iziToast.error({
-      title: 'Error',
+      title: 'Error1',
       message: err.message,
     });
   }
@@ -57,23 +55,21 @@ async function onFormSubmit(e) {
 
 // ==========================================
 function articleTemplate(article) {
-  const { userImageURL,likes} = article;
-  return `<li class="card news-card">
+    const { webformatURL, largeImageURL, tags, likes, views, comments, downloads} = article;
+    console.log(article);
+  return `<li class="image-list-el">
   <img loading="lazy"
     class="news-image"
-    src="${userImageURL}"
-    alt=""
+    src="${article.webformatURL}"
+    alt="${article.tags}"
   />
-  <h3 class="card-title">
-    ${likes}
-  </h3>
-  // <p class="card-desc">
-  // ${likes}
-  // </p>
-  // <div class="card-footer">
-  //   <span>${likes}</span>
-  //   <span>${likes}</span>
-  // </div>
+ 
+  <div class="card-footer">
+    <div class="item"><h3>Likes</h3><p>${article.likes}</p></div>
+    <div class="item"><h3>Views</h3><p>${article.views}</p></div>
+    <div class="item"><h3>Comments</h3><p>${article.comments}</p></div>
+    <div class="item"><h3>Downloads</h3><p>${article.downloads}</p></div>
+ </div>
 </li>
 `;
 }
