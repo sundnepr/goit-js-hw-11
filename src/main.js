@@ -37,7 +37,17 @@ async function onFormSubmit(e) {
   try {
     const data = await newsApi.getArticles();
     console.log(data);
+    console.log(data.total);
+    if (data.total == 0) {
+       iziToast.info({
+      title: 'Sorry,',
+      message: "there are no images matching your search query. Please try again!",
+    });
+
+    }
+  
     newsApi.totalResult = data.totalResults;
+
     renderArticles(data.hits);
   } catch (err) {
     newsApi.totalResult = 0;
