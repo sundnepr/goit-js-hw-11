@@ -1,4 +1,3 @@
-// key = 44530588-77e4763ebb7280f93ce94dd82
 import iziToast from 'izitoast';
 import 'izitoast/dist/css/iziToast.min.css';
 import { NewsAPI } from '/js/pixabay-api';
@@ -21,10 +20,20 @@ async function onFormSubmit(e) {
   e.preventDefault();
   showSpinner();
 
-  const query = e.target.elements.query.value.trim();
+  newsApi.query = e.target.elements.query.value.trim();
   newsApi.page = 1;
-  newsApi.query = query;
+  
   refs.articleListElem.innerHTML = '';
+  
+  const ok = newsApi.query.trim() !== '';
+   if (!ok) {
+        // hideLoader();
+        iziToast.error({
+            message: 'Info Search input must be filled!',
+        });
+        return;
+    }
+
   try {
     const data = await newsApi.getArticles();
     console.log(data);
@@ -41,7 +50,6 @@ async function onFormSubmit(e) {
   checkBtnStatus();
   hideSpinner();
 }
-articleTemplate(article);
 
 function articlesTemplate(articles) {
   return articles.map(articleTemplate).join('');
