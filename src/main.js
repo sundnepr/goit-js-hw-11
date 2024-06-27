@@ -1,7 +1,10 @@
 import iziToast from 'izitoast';
 import 'izitoast/dist/css/iziToast.min.css';
 import { NewsAPI } from '/js/pixabay-api';
-import {articleTemplate} from '/js/render-functions';
+import { articleTemplate } from '/js/render-functions';
+import SimpleLightbox from 'simplelightbox';
+import 'simplelightbox/dist/simple-lightbox.min.css';
+let gallery = new SimpleLightbox('.gallery a');
 
 const refs = {
   formElem: document.querySelector('.js-search-form'),
@@ -68,6 +71,7 @@ function articlesTemplate(articles) {
 function renderArticles(articles) {
   const markup = articlesTemplate(articles);
   refs.articleListElem.insertAdjacentHTML('beforeend', markup);
+  gallery.refresh();
 }
 // ==========================================
 
@@ -94,3 +98,8 @@ function hideSpinner() {
   // refs.loadElem.classList.add('hidden');
   // refs.btnLoadMore.classList.remove('hidden');
 }
+
+const lightbox = new SimpleLightbox('.gallery a', {
+  captionDelay: 250,
+  captionsData: 'alt',
+});
