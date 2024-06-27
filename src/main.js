@@ -5,6 +5,9 @@ import { articleTemplate } from '/js/render-functions';
 import SimpleLightbox from 'simplelightbox';
 import 'simplelightbox/dist/simple-lightbox.min.css';
 let gallery = new SimpleLightbox('.gallery a');
+const loadElem = document.querySelector('.loader')
+
+hideSpinner();
 
 const refs = {
   formElem: document.querySelector('.js-search-form'),
@@ -30,7 +33,7 @@ async function onFormSubmit(e) {
   
   const ok = newsApi.query.trim() !== '';
    if (!ok) {
-        // hideLoader();
+        hideSpinner();
         iziToast.error({
             message: 'Info Search input must be filled!',
         });
@@ -39,8 +42,7 @@ async function onFormSubmit(e) {
 
   try {
     const data = await newsApi.getArticles();
-    console.log(data);
-    console.log(data.total);
+    hideSpinner();
     if (data.total == 0) {
        iziToast.info({
       title: 'Sorry,',
@@ -60,7 +62,6 @@ async function onFormSubmit(e) {
     });
   }
 
-  checkBtnStatus();
   hideSpinner();
 }
 
@@ -73,30 +74,13 @@ function renderArticles(articles) {
   refs.articleListElem.insertAdjacentHTML('beforeend', markup);
   gallery.refresh();
 }
-// ==========================================
-
-function checkBtnStatus() {
-  console.log(newsApi.totalResult);
-  console.log(newsApi.page);
-  const maxPage = Math.ceil(newsApi.totalResult / NewsAPI.PAGE_SIZE);
-  const isLastPage = maxPage <= newsApi.page;
-  if (isLastPage) {
-    refs.btnLoadMore.classList.add('hidden');
-  } else {
-    // refs.btnLoadMore.classList.remove('hidden');
-  }
-}
-
-// =======================
 
 function showSpinner() {
-  // refs.loadElem.classList.remove('hidden');
-  // refs.btnLoadMore.classList.add('hidden');
+  loadElem.classList.remove('visually-hidden');
 }
 
 function hideSpinner() {
-  // refs.loadElem.classList.add('hidden');
-  // refs.btnLoadMore.classList.remove('hidden');
+  loadElem.classList.add('visually-hidden');
 }
 
 const lightbox = new SimpleLightbox('.gallery a', {
